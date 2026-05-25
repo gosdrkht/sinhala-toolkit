@@ -1,11 +1,9 @@
 <div align="center">
 
 # 🇱🇰 sinhala-toolkit
-
 **The missing developer toolkit for Sinhala language processing**
 
 සිංහල භාෂා සැකසීම සඳහා නවීන developer toolkit එක
-
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![PHP Version](https://img.shields.io/badge/PHP-8.1%2B-blue.svg)](https://php.net)
 [![Sinhala NLP](https://img.shields.io/badge/NLP-Sinhala-green.svg)]()
@@ -30,7 +28,7 @@ Until now.
 
 <a name="english"></a>
 
-## ✨ Features
+## Features
 
 | Feature | Status |
 |---|---|
@@ -74,7 +72,7 @@ composer require YOUR_USERNAME/sinhala-toolkit
 
 ## Usage Examples
 
-### 🧹 Text Cleaner
+### Text Cleaner
 
 ```php
 use SinhalaToolkit\TextCleaner;
@@ -109,7 +107,7 @@ $cleaner->isStopword("සඳහා");    // true
 
 ---
 
-### ✂️ Tokenizer
+### Tokenizer
 
 ```php
 use SinhalaToolkit\Tokenizer;
@@ -356,16 +354,14 @@ $sentences = $tokenizer->splitSentences("ඔහු ගෙදර ගියා། 
 
 ## License
 
-MIT © 2025 [Your Name](https://github.com/YOUR_USERNAME)
+MIT © 2025 [Your Name](https://github.com/gosdrkht)
 
 ---
 
 <div align="center">
 
-Built with ❤️ for the Sri Lankan developer community
-
-**ශ්‍රී ලාංකික developer ප්‍රජාව සඳහා ❤️ සමඟ නිර්මාණය කරන ලදී**
-
-⭐ If this helped you, please star the repo! එය ගොඩක් help වෙනවා 🙏
+Built for the Sri Lankan developer community
+**ශ්‍රී ලාංකික developer ප්‍රජාව සඳහා නිර්මාණය කරන ලදී**
+⭐ If this helped you, please star the repo! 🙏
 
 </div>
