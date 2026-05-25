@@ -354,7 +354,7 @@ $sentences = $tokenizer->splitSentences("ඔහු ගෙදර ගියා། 
 
 ## License
 
-MIT © 2025 [Your Name](https://github.com/gosdrkht)
+MIT © 2025 [Trishan Sri Viduranga](https://github.com/gosdrkht)
 
 ---
 
