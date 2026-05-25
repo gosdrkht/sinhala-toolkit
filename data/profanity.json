@@ -1,0 +1,199 @@
+{
+  "_meta": {
+    "name": "Sinhala Profanity / Bad Words List",
+    "description": "A categorised list of Sinhala profanity, offensive, and inappropriate words for content moderation. Covers mild rudeness to strong insults. Use responsibly.",
+    "version": "1.1.0",
+    "language": "si",
+    "script": "Sinhala (සිංහල)",
+    "total_words": 80,
+    "license": "MIT",
+    "maintained_by": "sinhala-toolkit",
+    "github": "https://github.com/gosdrkht/sinhala-toolkit",
+    "use_cases": [
+      "Comment moderation",
+      "Chat / WhatsApp bot filtering",
+      "Social platform content safety",
+      "User-generated content screening",
+      "App review filtering"
+    ],
+    "severity_guide": {
+      "mild": "Rude or dismissive words. Flag for review. Context-dependent — could be playful between friends.",
+      "moderate": "Clearly offensive insults. Should be filtered or replaced with ***.",
+      "strong": "Serious profanity and slurs. Always block or redact.",
+      "hate_speech": "Words targeting ethnicity, religion, or groups. Always block immediately."
+    },
+    "note": "The 'strong' and 'hate_speech' categories are partially redacted in this public release. Maintainers of production content-moderation systems should extend privately."
+  },
+
+  "categories": {
+
+    "mild": {
+      "_description": "Mildly rude or dismissive — context-dependent, often used casually",
+      "animal_insults": [
+        "ගොන",
+        "ගොන්නා",
+        "හාමු",
+        "පූසා",
+        "බල්ලා",
+        "බළලා",
+        "හාල්මැස්සා",
+        "හාවා",
+        "ගෙම්බා"
+      ],
+      "rudeness": [
+        "මෝඩ",
+        "මෝඩයා",
+        "කෝච්චිය",
+        "වේලා",
+        "ළමා",
+        "හිස්",
+        "හිස්ට",
+        "නිකම්",
+        "අනවශ්‍ය",
+        "ගෙදර යව"
+      ],
+      "dismissive": [
+        "ඉවත් වෙ",
+        "ගිහිල්ල ඉඳ",
+        "නිකරුනේ",
+        "කාටවත් ඕනේ නෑ",
+        "නිශ්ශබ්ද වෙ"
+      ]
+    },
+
+    "moderate": {
+      "_description": "Clearly offensive insults — should be filtered or replaced with ***",
+      "general_insults": [
+        "හරක්",
+        "හරකා",
+        "හරක් කම",
+        "ගොන් කම",
+        "මෝඩකම",
+        "කෑල්ල",
+        "ගෙඩිය",
+        "බොරු කාරයා",
+        "බොරු කාරිය",
+        "කුණු",
+        "කුණු කාරයා",
+        "කුණු කාරිය",
+        "කසල",
+        "පාළු",
+        "හිස් තලේ"
+      ],
+      "appearance_insults": [
+        "කැත",
+        "කැත කම",
+        "බිතර",
+        "ලොකු ඔළුව",
+        "ලොකු කට"
+      ],
+      "intelligence_insults": [
+        "නිකරුනේ ඉඳ",
+        "ඔළුව නෑ",
+        "හිතන්නෙ නෑ",
+        "දන්නෙ නෑ",
+        "ඔළු හිස්"
+      ],
+      "character_insults": [
+        "කපටි",
+        "කපටිකාරයා",
+        "රවට්ටන්නා",
+        "රවුම් කාරයා",
+        "වංචාකාරයා",
+        "වංචාකාරිය",
+        "සොරා",
+        "සොරකාරයා",
+        "කොල්ලකාරයා"
+      ]
+    },
+
+    "strong": {
+      "_description": "Strong profanity — always block or redact. Partial list in public release.",
+      "words": [
+        "හූ",
+        "හූකාරයා",
+        "නරක ජාතිය",
+        "නරකම ජාතිය"
+      ],
+      "_redacted_notice": "Additional strong profanity words are intentionally omitted from this public list to prevent misuse. Build your own extended list for production use."
+    },
+
+    "hate_speech": {
+      "_description": "Words used to target or demean people based on ethnicity, religion, gender, or disability. Always block immediately.",
+      "words": [
+        "කොල්ලො",
+        "දෙමළා",
+        "මූර්",
+        "සිංහලයා"
+      ],
+      "_redacted_notice": "This category is heavily redacted in the public release. Hate speech terms targeting specific communities are not published openly.",
+      "_context_note": "The words above are sometimes used as slurs in context even if they are neutral ethnonym terms — context-based detection is recommended over simple word matching."
+    },
+
+    "singlish_slang": {
+      "_description": "Mixed Sinhala-English slang insults common on social media",
+      "words": [
+        "stupid",
+        "idiot",
+        "fool",
+        "loser",
+        "බොරු",
+        "ෆේල්",
+        "ෆේල් එකක්",
+        "trash",
+        "waste",
+        "joke",
+        "clown"
+      ]
+    }
+
+  },
+
+  "detection_tips": {
+    "context_matters": "Many words in the 'mild' category are used normally between friends in SL. Consider user reports + frequency before auto-blocking.",
+    "zwj_bypass": "Some users insert ZWJ (U+200D) between characters to bypass simple string matching. Normalize text with TextCleaner before checking.",
+    "number_substitution": "Watch for number substitutions like '0' for 'ශ' etc. Regex or ML approaches handle this better than word lists.",
+    "recommended_flow": "1. Normalize text → 2. Check flat_list → 3. Check severity → 4. Apply action based on severity level"
+  },
+
+  "flat_list": [
+    "ගොන", "ගොන්නා", "හාමු", "පූසා", "බල්ලා", "බළලා", "හාල්මැස්සා", "හාවා", "ගෙම්බා",
+    "මෝඩ", "මෝඩයා", "කෝච්චිය", "වේලා", "හිස්", "නිකම්", "අනවශ්‍ය",
+    "ඉවත් වෙ", "නිශ්ශබ්ද වෙ", "නිකරුනේ",
+    "හරක්", "හරකා", "හරක් කම", "ගොන් කම", "කෑල්ල", "ගෙඩිය",
+    "බොරු කාරයා", "බොරු කාරිය", "කුණු", "කුණු කාරයා", "කසල",
+    "කැත", "කැත කම", "ලොකු කට",
+    "ඔළුව නෑ", "හිතන්නෙ නෑ", "ඔළු හිස්",
+    "කපටි", "කපටිකාරයා", "රවට්ටන්නා", "වංචාකාරයා", "සොරා", "කොල්ලකාරයා",
+    "හූ", "හූකාරයා",
+    "බොරු", "ෆේල්", "stupid", "idiot", "fool", "loser", "trash", "waste"
+  ],
+
+  "severity_map": {
+    "ගොන":           "mild",
+    "ගොන්නා":        "mild",
+    "හාමු":          "mild",
+    "පූසා":          "mild",
+    "බල්ලා":         "mild",
+    "මෝඩ":           "mild",
+    "මෝඩයා":         "mild",
+    "කෝච්චිය":       "mild",
+    "හරක්":          "moderate",
+    "හරකා":          "moderate",
+    "කුණු":          "moderate",
+    "කසල":           "moderate",
+    "කැත":           "moderate",
+    "කපටි":          "moderate",
+    "වංචාකාරයා":     "moderate",
+    "සොරා":          "moderate",
+    "හූ":            "strong",
+    "හූකාරයා":       "strong",
+    "ෆේල්":          "singlish_slang",
+    "stupid":        "singlish_slang",
+    "idiot":         "singlish_slang",
+    "fool":          "singlish_slang",
+    "loser":         "singlish_slang",
+    "trash":         "singlish_slang",
+    "waste":         "singlish_slang"
+  }
+}

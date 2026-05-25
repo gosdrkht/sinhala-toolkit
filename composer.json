@@ -1,0 +1,53 @@
+{
+  "name": "gosdrkht/sinhala-toolkit",
+  "description": "The missing developer toolkit for Sinhala language processing | සිංහල NLP toolkit",
+  "type": "library",
+  "license": "MIT",
+  "keywords": [
+    "sinhala",
+    "nlp",
+    "tokenizer",
+    "text-processing",
+    "sri-lanka",
+    "sinhalese",
+    "natural-language-processing",
+    "stopwords"
+  ],
+  "authors": [
+    {
+      "name": "gosdrkht",
+      "homepage": "https://github.com/gosdrkht"
+    }
+  ],
+  "homepage": "https://github.com/gosdrkht/sinhala-toolkit",
+  "support": {
+    "issues": "https://github.com/gosdrkht/sinhala-toolkit/issues",
+    "source": "https://github.com/gosdrkht/sinhala-toolkit"
+  },
+  "require": {
+    "php": ">=8.1"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^10.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "SinhalaToolkit\\": "php/src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "SinhalaToolkit\\Tests\\": "php/tests/"
+    }
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true,
+  "config": {
+    "sort-packages": true
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-main": "1.0-dev"
+    }
+  }
+}
