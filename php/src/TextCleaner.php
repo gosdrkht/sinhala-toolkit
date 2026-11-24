@@ -281,6 +281,17 @@ class TextCleaner
     }
 
     /**
+     * Check whether a given string contains Tamil characters (U+0B80–U+0BFF).
+     *
+     * @param  string $text
+     * @return bool
+     */
+    public function containsTamil(string $text): bool
+    {
+        return (bool) preg_match('/[\x{0B80}-\x{0BFF}]/u', $text);
+    }
+
+    /**
      * Check whether a string is purely Sinhala (no English, digits, etc.)
      *
      * @param  string $text
@@ -296,8 +307,8 @@ class TextCleaner
     }
 
     /**
-     * Detect the primary script in a mixed-language string.
-     * Returns 'sinhala', 'english', 'mixed', or 'unknown'.
+     * Detect the primary script in a string.
+     * Returns 'sinhala', 'tamil', 'english', 'mixed', or 'unknown'.
      *
      * @param  string $text
      * @return string
@@ -305,11 +316,15 @@ class TextCleaner
     public function detectScript(string $text): string
     {
         $hasSinhala = $this->containsSinhala($text);
+        $hasTamil   = $this->containsTamil($text);
         $hasEnglish = (bool) preg_match('/[a-zA-Z]/', $text);
 
-        if ($hasSinhala && $hasEnglish) return 'mixed';
-        if ($hasSinhala) return 'sinhala';
-        if ($hasEnglish) return 'english';
+        $scriptCount = (int) $hasSinhala + (int) $hasTamil + (int) $hasEnglish;
+
+        if ($scriptCount > 1) return 'mixed';
+        if ($hasSinhala)      return 'sinhala';
+        if ($hasTamil)        return 'tamil';
+        if ($hasEnglish)      return 'english';
         return 'unknown';
     }
 

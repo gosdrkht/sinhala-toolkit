@@ -9,6 +9,7 @@ import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "python"))
 
 from sinkit import (
+    ProfanityFilter,
     SentimentAnalyser,
     Stopwords,
     TextCleaner,
@@ -43,8 +44,11 @@ def test_text_cleaner():
     assert c.clean("මෙය good idea එකක්", remove_english=True) == "මෙය එකක්"
     assert c.clean("2024 දී ජය", remove_numbers=True) == "දී ජය"
     assert c.detect_script("ආයුබෝවන්") == "sinhala"
+    assert c.detect_script("வணக்கம்") == "tamil"
     assert c.detect_script("Hello World") == "english"
     assert c.detect_script("Hello ආයුබෝවන්") == "mixed"
+    assert c.detect_script("ආයුබෝවන් வணக்கம்") == "mixed"
+    assert c.contains_tamil("வணக்கம்") is True
     assert c.detect_script("12345") == "unknown"
     assert c.is_pure_sinhala("ආයුබෝවන්") is True
     assert c.is_pure_sinhala("Hello") is False
@@ -99,3 +103,27 @@ def test_sentiment_analyser():
 
     neutral = sa.analyse("ඔහු ගෙදර ගියා")
     assert neutral["label"] == "neutral"
+
+
+def test_profanity_filter():
+    pf = ProfanityFilter()
+    assert len(pf.words()) >= 40
+    assert pf.contains_profanity("ඔහු මෝඩයා") is True
+    assert pf.contains_profanity("ඔහු බොරු කාරයා") is True
+    assert pf.contains_profanity("This is stupid!") is True
+    assert pf.contains_profanity("ආයුබෝවන් ලංකාව") is False
+    assert pf.contains_profanity("I love football") is False
+    assert pf.contains_profanity("ඔහු මෝ\u200Dඩයා") is True
+    assert pf.highest_severity("මෝඩයා සහ වංචාකාරයා") == "moderate"
+    assert pf.highest_severity("හූකාරයා") == "strong"
+    assert pf.highest_severity("ආයුබෝවන්") is None
+    assert pf.contains_profanity("ඔහු මෝඩයා", severities=["strong"]) is False
+    assert pf.contains_profanity("ඔහු මෝඩයා", severities=["mild"]) is True
+    assert pf.censor("ඔහු මෝඩයා") == "ඔහු ***"
+    assert pf.censor("ඔහු බොරු කාරයා වේ") == "ඔහු *** වේ"
+    assert pf.censor("ඔහු මෝ\u200Dඩයා") == "ඔහු ***"
+
+    pf.add_words(["කුජීත"], severity="moderate")
+    assert pf.contains_profanity("මෙය කුජීත") is True
+    pf.remove_words(["කුජීත"])
+    assert pf.contains_profanity("මෙය කුජීත") is False

@@ -5,7 +5,7 @@ with open("README.md", encoding="utf-8") as f:
 
 setup(
     name="sinkit",
-    version="1.0.0",
+    version="1.1.0",
     author="gosdrkht",
     description="The missing developer toolkit for Sinhala language processing",
     long_description=long_description,

@@ -71,10 +71,13 @@ assert_eq(
 
 // --- Script detection ---
 echo "\nScript detection:\n";
-assert_eq("Pure Sinhala",  $cleaner->detectScript("ආයුබෝවන්"),        "sinhala");
-assert_eq("Pure English",  $cleaner->detectScript("Hello World"),     "english");
-assert_eq("Mixed",         $cleaner->detectScript("Hello ආයුබෝවන්"), "mixed");
-assert_eq("Unknown",       $cleaner->detectScript("12345"),            "unknown");
+assert_eq("Pure Sinhala",    $cleaner->detectScript("ආයුබෝවන්"),          "sinhala");
+assert_eq("Pure Tamil",      $cleaner->detectScript("வணக்கம்"),            "tamil");
+assert_eq("Pure English",    $cleaner->detectScript("Hello World"),        "english");
+assert_eq("Mixed Si+En",     $cleaner->detectScript("Hello ආයුබෝවන්"),     "mixed");
+assert_eq("Mixed Si+Ta",     $cleaner->detectScript("ආයුබෝවන් வணக்கம்"),   "mixed");
+assert_eq("containsTamil",   $cleaner->containsTamil("வணக்கம்"),           true);
+assert_eq("Unknown",         $cleaner->detectScript("12345"),              "unknown");
 
 // --- isPureSinhala ---
 echo "\nisPureSinhala:\n";

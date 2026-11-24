@@ -1,0 +1,71 @@
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  php-tests:
+    name: PHP ${{ matrix.php-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version: ["8.1", "8.2", "8.3"]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: mbstring, intl
+
+      - name: Lint PHP files
+        run: |
+          for f in php/src/*.php tests/*.php; do
+            php -l "$f"
+          done
+
+      - name: Run PHP test suite
+        run: |
+          for f in tests/test_*.php; do
+            php "$f"
+          done
+
+  python-tests:
+    name: Python ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.11", "3.12"]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install pytest
+        run: python -m pip install --upgrade pip pytest
+
+      - name: Run Python tests and doctests
+        env:
+          PYTHONPATH: python
+        run: pytest -v --doctest-modules python/sinkit tests/test_python.py
+
+      - name: Validate JSON datasets
+        run: |
+          python -c '
+          import glob, json
+          for path in sorted(glob.glob("**/*.json", recursive=True)):
+              with open(path, encoding="utf-8") as f:
+                  json.load(f)
+              print("Valid JSON:", path)
+          '

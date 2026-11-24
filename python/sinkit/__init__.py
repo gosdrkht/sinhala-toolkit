@@ -19,8 +19,9 @@ from .cleaner   import TextCleaner
 from .tokenizer import Tokenizer
 from .stopwords import Stopwords, is_stopword, filter_stopwords, all_stopwords
 from .sentiment import SentimentAnalyser
+from .profanity import ProfanityFilter
 
-__version__   = "1.0.0"
+__version__   = "1.1.0"
 __author__    = "gosdrkht"
 __license__   = "MIT"
 __all__ = [
@@ -28,6 +29,7 @@ __all__ = [
     "Tokenizer",
     "Stopwords",
     "SentimentAnalyser",
+    "ProfanityFilter",
     "is_stopword",
     "filter_stopwords",
     "all_stopwords",

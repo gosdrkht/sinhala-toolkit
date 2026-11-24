@@ -30,8 +30,9 @@ _SOFT_HYPHEN = "\u00AD"  # Soft Hyphen
 _LRM        = "\u200E"   # Left-to-Right Mark
 _RLM        = "\u200F"   # Right-to-Left Mark
 
-# Sinhala Unicode block
+# Sinhala, Tamil, English, Number Unicode blocks
 _SINHALA_RE  = re.compile(r"[\u0D80-\u0DFF]")
+_TAMIL_RE    = re.compile(r"[\u0B80-\u0BFF]")
 _ENGLISH_RE  = re.compile(r"[a-zA-Z]")
 _NUMBER_RE   = re.compile(r"[0-9\u0DE6-\u0DEF]")  # ASCII + Sinhala digits
 
@@ -181,15 +182,19 @@ class TextCleaner:
 
         Returns
         -------
-        'sinhala' | 'english' | 'mixed' | 'unknown'
+        'sinhala' | 'tamil' | 'english' | 'mixed' | 'unknown'
         """
         has_sinhala = bool(_SINHALA_RE.search(text))
+        has_tamil   = bool(_TAMIL_RE.search(text))
         has_english = bool(_ENGLISH_RE.search(text))
 
-        if has_sinhala and has_english:
+        script_count = int(has_sinhala) + int(has_tamil) + int(has_english)
+        if script_count > 1:
             return "mixed"
         if has_sinhala:
             return "sinhala"
+        if has_tamil:
+            return "tamil"
         if has_english:
             return "english"
         return "unknown"
@@ -204,6 +209,10 @@ class TextCleaner:
     def contains_sinhala(self, text: str) -> bool:
         """Return True if the text contains any Sinhala characters."""
         return bool(_SINHALA_RE.search(text))
+
+    def contains_tamil(self, text: str) -> bool:
+        """Return True if the text contains any Tamil characters (U+0B80–U+0BFF)."""
+        return bool(_TAMIL_RE.search(text))
 
     def is_stopword(self, word: str) -> bool:
         """Check if a single word is a stopword."""

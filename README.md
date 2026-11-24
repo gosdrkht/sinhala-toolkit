@@ -305,20 +305,25 @@ $tokenizer = new Tokenizer();
 ```
 sinhala-toolkit/
 ├── php/src/
-│   ├── TextCleaner.php      # PHP text cleaning & normalisation
-│   └── Tokenizer.php        # PHP sentence & word tokenization
+│   ├── TextCleaner.php       # PHP text cleaning & script detection
+│   ├── Tokenizer.php         # PHP sentence & word tokenization
+│   ├── SentimentAnalyser.php # PHP rule-based sentiment analyser
+│   └── ProfanityFilter.php   # PHP profanity filter with severity
 ├── python/sinkit/
-│   ├── cleaner.py           # Python text cleaning & normalisation
-│   ├── tokenizer.py         # Python sentence & word tokenization
-│   ├── stopwords.py         # Python stopwords loader
-│   └── sentiment.py         # Python rule-based sentiment analyser
+│   ├── cleaner.py            # Python text cleaning & script detection
+│   ├── tokenizer.py          # Python sentence & word tokenization
+│   ├── stopwords.py          # Python stopwords loader
+│   ├── sentiment.py          # Python rule-based sentiment analyser
+│   └── profanity.py          # Python profanity filter with severity
 ├── data/
-│   ├── stopwords.json       # 140+ curated Sinhala stopwords
-│   ├── common_words.json    # Common Sinhala words dataset
-│   └── profanity.json       # Sinhala profanity dataset
+│   ├── stopwords.json        # 140+ curated Sinhala stopwords
+│   ├── common_words.json     # Common Sinhala words dataset
+│   └── profanity.json        # Sinhala profanity dataset
 ├── tests/
 │   ├── test_cleaner.php
 │   ├── test_tokenizer.php
+│   ├── test_sentiment.php
+│   ├── test_profanity.php
 │   └── test_python.py
 ├── composer.json
 ├── setup.py
@@ -334,10 +339,10 @@ sinhala-toolkit/
 
 - [x] `composer require` support (`gosdrkht/sinhala-toolkit` on Packagist)
 - [x] Python package (`pip install sinkit` on PyPI)
-- [x] Sinhala sentiment analyser (Python)
+- [x] Sinhala sentiment analyser (PHP & Python)
+- [x] Profanity / bad word filter (PHP & Python)
+- [x] Language / script detector (Sinhala vs Tamil vs English)
 - [ ] Singlish transliterator (`ආයුබෝවන්` ↔ `aayubowan`)
-- [ ] Profanity / bad word filter
-- [ ] Language detector (Sinhala vs Tamil vs English)
 - [ ] Keyword extractor (TF-IDF)
 - [ ] REST API (hosted)
 
