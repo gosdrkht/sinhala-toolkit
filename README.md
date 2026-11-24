@@ -1,9 +1,10 @@
 <div align="center">
 
-# 🇱🇰 sinhala-toolkit
-**The missing developer toolkit for Sinhala language processing**
+# 🇱🇰 sinhala-toolkit (`sinkit`)
+**Zero-dependency Sinhala NLP toolkit for PHP & Python — Text Cleaner, Tokenizer, Stopwords, Sentiment Analysis & Profanity Filter**
 
 සිංහල භාෂා සැකසීම සඳහා නවීන developer toolkit එක
+[![Tests](https://github.com/gosdrkht/sinhala-toolkit/actions/workflows/tests.yml/badge.svg)](https://github.com/gosdrkht/sinhala-toolkit/actions/workflows/tests.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Packagist Version](https://img.shields.io/packagist/v/gosdrkht/sinhala-toolkit?label=Packagist)](https://packagist.org/packages/gosdrkht/sinhala-toolkit)
 [![PyPI Version](https://img.shields.io/pypi/v/sinkit?label=PyPI%20%28sinkit%29)](https://pypi.org/project/sinkit/)
@@ -13,7 +14,7 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 [![GitHub Stars](https://img.shields.io/github/stars/gosdrkht/sinhala-toolkit?style=social)](https://github.com/gosdrkht/sinhala-toolkit)
 
-[English](#english) · [සිංහල](#sinhala) · [Quick Start](#quick-start) · [API Reference](#api-reference) · [Contributing](#contributing)
+[Website](https://www.sinhalatoolkit.leadingedgesolutions.lk) · [English](#english) · [සිංහල](#sinhala) · [Quick Start](#quick-start) · [API Reference](#api-reference) · [Contributing](#contributing)
 
 </div>
 
@@ -198,6 +199,48 @@ $freq = $tokenizer->frequency($text);
 // ශ්‍රී contains a ZWJ conjunct consonant — kept intact as one cluster
 $clusters = $tokenizer->graphemes("ශ්‍රී");
 // ["ශ්‍රී"]  ← treated as a single grapheme unit
+```
+
+---
+
+### Sinhala Profanity Filter (`ProfanityFilter`)
+
+```php
+use SinhalaToolkit\ProfanityFilter;
+
+$pf = new ProfanityFilter();
+$pf->containsProfanity("ඔහු මෝඩයා");         // true
+$pf->censor("ඔහු බොරු කාරයා වේ");            // "ඔහු *** වේ"
+$pf->highestSeverity("මෝඩයා සහ වංචාකාරයා");  // "moderate"
+```
+
+```python
+from sinkit import ProfanityFilter
+
+pf = ProfanityFilter()
+pf.contains_profanity("ඔහු මෝඩයා")           # True
+pf.censor("ඔහු බොරු කාරයා වේ")               # "ඔහු *** වේ"
+pf.highest_severity("මෝඩයා සහ වංචාකාරයා")    # "moderate"
+```
+
+---
+
+### Sinhala Sentiment Analysis (`SentimentAnalyser`)
+
+```php
+use SinhalaToolkit\SentimentAnalyser;
+
+$sa = new SentimentAnalyser();
+$sa->analyse("මෙය ඉතා හොඳ චිත්‍රපටයකි")['label']; // "positive"
+$sa->analyse("මෙය හොඳ නෑ")['label'];              // "negative"
+```
+
+```python
+from sinkit import SentimentAnalyser
+
+sa = SentimentAnalyser()
+sa.analyse("මෙය ඉතා හොඳ චිත්‍රපටයකි")["label"]    # "positive"
+sa.analyse("මෙය හොඳ නෑ")["label"]                 # "negative"
 ```
 
 ---

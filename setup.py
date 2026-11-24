@@ -7,11 +7,12 @@ setup(
     name="sinkit",
     version="1.1.0",
     author="gosdrkht",
-    description="The missing developer toolkit for Sinhala language processing",
+    description="Zero-dependency Sinhala NLP toolkit for Python — text cleaner, tokenizer, stopwords, sentiment analysis, profanity filter & script detector",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/gosdrkht/sinhala-toolkit",
     project_urls={
+        "Homepage":    "https://www.sinhalatoolkit.leadingedgesolutions.lk",
         "Bug Reports": "https://github.com/gosdrkht/sinhala-toolkit/issues",
         "Source":      "https://github.com/gosdrkht/sinhala-toolkit",
     },
@@ -41,5 +42,5 @@ setup(
         "Programming Language :: Python :: 3.11",
         "Programming Language :: Python :: 3.12",
     ],
-    keywords="sinhala nlp tokenizer text-processing sri-lanka sinhalese natural-language-processing",
+    keywords="sinhala sinhala-nlp sinhalese nlp tokenizer text-processing text-cleaner stopwords sentiment-analysis profanity-filter unicode tamil sri-lanka natural-language-processing sinkit",
 )

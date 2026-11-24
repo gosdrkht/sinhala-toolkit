@@ -1,17 +1,24 @@
 {
   "name": "gosdrkht/sinhala-toolkit",
-  "description": "The missing developer toolkit for Sinhala language processing | සිංහල NLP toolkit",
+  "description": "Zero-dependency Sinhala NLP toolkit for PHP — text cleaner, tokenizer, stopwords, sentiment analysis, profanity filter & trilingual script detector | සිංහල NLP",
   "type": "library",
   "license": "MIT",
   "keywords": [
     "sinhala",
+    "sinhala-nlp",
+    "sinhalese",
     "nlp",
+    "natural-language-processing",
     "tokenizer",
     "text-processing",
+    "text-cleaner",
+    "stopwords",
+    "sentiment-analysis",
+    "profanity-filter",
+    "unicode",
+    "tamil",
     "sri-lanka",
-    "sinhalese",
-    "natural-language-processing",
-    "stopwords"
+    "php"
   ],
   "authors": [
     {
