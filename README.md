@@ -8,7 +8,7 @@
 [![PHP Version](https://img.shields.io/badge/PHP-8.1%2B-blue.svg)](https://php.net)
 [![Sinhala NLP](https://img.shields.io/badge/NLP-Sinhala-green.svg)]()
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
-[![GitHub Stars](https://img.shields.io/github/stars/YOUR_USERNAME/sinhala-toolkit?style=social)]()
+[![GitHub Stars](https://img.shields.io/github/stars/gosdrkht/sinhala-toolkit?style=social)]()
 
 [English](#english) · [සිංහල](#sinhala) · [Quick Start](#quick-start) · [API Reference](#api-reference) · [Contributing](#contributing)
 
@@ -65,7 +65,7 @@ use SinhalaToolkit\Tokenizer;
 **Option 2 — Composer** *(coming soon)*
 
 ```bash
-composer require YOUR_USERNAME/sinhala-toolkit
+composer require gosdrkht/sinhala-toolkit
 ```
 
 ---
@@ -116,7 +116,7 @@ $tokenizer = new Tokenizer();
 
 // --- Sentence tokenization ---
 
-$text = "ඔහු ගෙදර ගියා། ඇය පාසලට ගියාය། ළමයි ක්‍රීඩා කළා།";
+$text = "ඔහු ගෙදර ගියා। ඇය පාසලට ගියාය। ළමයි ක්‍රීඩා කළා।";
 $sentences = $tokenizer->splitSentences($text);
 // [
 //   "ඔහු ගෙදර ගියා",
@@ -346,7 +346,7 @@ $clean = $cleaner->clean("මම සහ ඔබ හොඳ ගුරුවරය�
 // ප්‍රතිඵලය: "හොඳ ගුරුවරයා ඉගෙන ගත්තා"
 
 // වාක්‍ය කැපීම
-$sentences = $tokenizer->splitSentences("ඔහු ගෙදර ගියා། ඇය පාසලට ගියාය།");
+$sentences = $tokenizer->splitSentences("ඔහු ගෙදර ගියා। ඇය පාසලට ගියාය।");
 // ["ඔහු ගෙදර ගියා", "ඇය පාසලට ගියාය"]
 ```
 

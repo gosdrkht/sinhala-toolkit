@@ -88,9 +88,24 @@ assert_eq("'මම' is stopword",  $cleaner->isStopword("මම"),   true);
 assert_eq("'ගුරු' not stopword", $cleaner->isStopword("ගුරු"), false);
 assert_eq("'සඳහා' is stopword", $cleaner->isStopword("සඳහා"), true);
 
+// --- Punctuation removal ---
+echo "\nPunctuation removal:\n";
+assert_eq(
+    "Preserves Sinhala vowel signs and ZWJ",
+    $cleaner->removePunctuation("ශ්\u{200D}රී ලංකාව! හොඳයි, ගෙදර."),
+    "ශ්\u{200D}රී ලංකාව හොඳයි ගෙදර"
+);
+assert_eq(
+    "Removes danda when keepDanda is false",
+    $cleaner->removePunctuation("ඔහු ගියා\u{0964}", false),
+    "ඔහු ගියා"
+);
+
 // --- Stopwords loaded ---
 echo "\nStopwords dataset:\n";
 assert_eq("At least 100 stopwords loaded", count($cleaner->getStopwords()) >= 100, true);
+$defaultCleaner = new TextCleaner();
+assert_eq("Default constructor loads stopwords", count($defaultCleaner->getStopwords()) >= 100, true);
 
 echo "\n========================================\n";
 echo " Results: {$pass} passed, {$fail} failed\n";

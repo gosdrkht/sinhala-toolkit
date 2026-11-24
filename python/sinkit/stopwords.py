@@ -15,14 +15,27 @@ Usage:
 from __future__ import annotations
 
 import json
-import os
+import sys
 from pathlib import Path
 from typing import Optional
 
 
+def _default_stopwords_path() -> Path:
+    """Locate stopwords.json across repo checkout, package dir, or installed data."""
+    candidates = [
+        Path(__file__).resolve().parent / "data" / "stopwords.json",
+        Path(__file__).resolve().parent.parent.parent / "data" / "stopwords.json",
+        Path(sys.prefix) / "share" / "sinkit" / "data" / "stopwords.json",
+    ]
+    for candidate in candidates:
+        if candidate.exists():
+            return candidate
+    return candidates[1]
+
+
 # Default path to the shared data file
 _DATA_DIR  = Path(__file__).resolve().parent.parent.parent / "data"
-_SW_FILE   = _DATA_DIR / "stopwords.json"
+_SW_FILE   = _default_stopwords_path()
 
 
 class Stopwords:
@@ -41,9 +54,10 @@ class Stopwords:
     """
 
     def __init__(self, json_path: Optional[str | Path] = None) -> None:
-        self._path: Path = Path(json_path) if json_path else _SW_FILE
+        self._path: Path = Path(json_path) if json_path else _default_stopwords_path()
         self._data: dict = {}
         self._flat: list[str] = []
+        self._flat_set: set[str] = set()
         self._load()
 
     # ------------------------------------------------------------------
@@ -62,7 +76,10 @@ class Stopwords:
                    auxiliary_verbs, question_words, demonstratives,
                    numerals, common_adverbs, discourse_markers
         """
-        section = self._data.get(category, {})
+        section = self._data.get(category)
+        if not isinstance(section, dict):
+            return []
+
         words: list[str] = []
 
         for key, value in section.items():

@@ -7,7 +7,6 @@ setup(
     name="sinkit",
     version="1.0.0",
     author="gosdrkht",
-    author_email="your@email.com",
     description="The missing developer toolkit for Sinhala language processing",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -18,9 +17,16 @@ setup(
     },
     packages=find_packages(where="python"),
     package_dir={"": "python"},
-    package_data={
-        "sinkit": ["../../data/*.json"],
-    },
+    data_files=[
+        (
+            "share/sinkit/data",
+            [
+                "data/stopwords.json",
+                "data/common_words.json",
+                "data/profanity.json",
+            ],
+        ),
+    ],
     python_requires=">=3.8",
     install_requires=[],   # zero dependencies!
     classifiers=[

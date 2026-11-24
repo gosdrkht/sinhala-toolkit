@@ -122,6 +122,22 @@ assert_eq("Top word 'ශ්‍රී' appears 3 times",  $freq["ශ්\u{200D}�
 assert_eq("Word 'ලංකාව' appears 3 times", $freq["ලංකාව"] ?? 0,           3);
 assert_eq("Word 'රටකි' appears 2 times",  $freq["රටකි"] ?? 0,            2);
 
+// --- UTF-8 safety in sentence splitting ---
+echo "\nUTF-8 safety:\n";
+assert_eq(
+    "Preserves Sinhala characters ending in U+0DA5 (ඥ)",
+    $t->splitSentences("ඔහු ප්‍රඥ."),
+    ["ඔහු ප්‍රඥ"]
+);
+
+// --- Grapheme clusters ---
+echo "\nGrapheme clusters:\n";
+assert_eq(
+    "ZWJ conjunct kept as single grapheme",
+    $t->graphemes("ශ්\u{200D}රී"),
+    ["ශ්\u{200D}රී"]
+);
+
 echo "\n========================================\n";
 echo " Results: {$pass} passed, {$fail} failed\n";
 echo "========================================\n\n";

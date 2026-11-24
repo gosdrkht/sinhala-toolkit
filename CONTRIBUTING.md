@@ -54,7 +54,7 @@ No special tools needed — just PHP 8.1+ and Git.
 
 ```bash
 # 1. Fork the repo on GitHub, then clone your fork
-git clone https://github.com/YOUR_USERNAME/sinhala-toolkit.git
+git clone https://github.com/gosdrkht/sinhala-toolkit.git
 cd sinhala-toolkit
 
 # 2. Run the tests to make sure everything works

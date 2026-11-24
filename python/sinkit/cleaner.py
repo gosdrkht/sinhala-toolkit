@@ -148,10 +148,10 @@ class TextCleaner:
         keep_danda : Keep Sinhala danda (।) and double danda (॥). Default True.
         """
         if keep_danda:
-            # Remove all punctuation except dandas (\u0964 \u0965)
-            text = re.sub(r"[^\w\s\u0964\u0965]", " ", text, flags=re.UNICODE)
+            # Remove all punctuation except dandas (\u0964 \u0965), preserving Sinhala marks and ZWJ
+            text = re.sub(r"(?:[^\w\s\u0D80-\u0DF3\u200D\u0964\u0965]|_)", " ", text, flags=re.UNICODE)
         else:
-            text = re.sub(r"[^\w\s]", " ", text, flags=re.UNICODE)
+            text = re.sub(r"(?:[^\w\s\u0D80-\u0DF3\u200D]|_)", " ", text, flags=re.UNICODE)
 
         return self.normalise_whitespace(text)
 

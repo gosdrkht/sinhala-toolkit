@@ -13,7 +13,7 @@
  *  - Punctuation-aware word splitting
  *
  * @package  SinhalaToolkit
- * @author   Your Name
+ * @author   gosdrkht
  * @license  MIT
  */
 
@@ -62,7 +62,7 @@ class Tokenizer
             if ($part === '') continue;
 
             if (!$keepBoundary) {
-                $part = rtrim($part, self::DANDA . self::DOUBLE_DANDA . '.?!');
+                $part = preg_replace('/[' . self::DANDA . self::DOUBLE_DANDA . '.?!]+$/u', '', $part) ?? $part;
                 $part = trim($part);
             }
 
@@ -138,7 +138,7 @@ class Tokenizer
             }
 
             // Consume ZWJ + next consonant (conjunct)
-            if ($i < $len && $chars[$i] === self::ZWJ) {
+            while ($i < $len && $chars[$i] === self::ZWJ) {
                 $cluster .= $chars[$i++]; // ZWJ
                 if ($i < $len) {
                     $cluster .= $chars[$i++]; // following consonant
@@ -163,7 +163,7 @@ class Tokenizer
         $hasSinhala = (bool) preg_match('/[\x{0D80}-\x{0DFF}]/u', $token);
         $hasEnglish = (bool) preg_match('/[a-zA-Z]/', $token);
         $hasNumber  = (bool) preg_match('/[0-9\x{0DE6}-\x{0DEF}]/u', $token);
-        $isPunct    = (bool) preg_match('/^[^\p{L}\p{N}]+$/u', $token);
+        $isPunct    = (bool) preg_match('/^[^\p{L}\p{M}\p{N}]+$/u', $token);
 
         if ($isPunct)                                         return self::TYPE_PUNCTUATION;
         if ($hasSinhala && !$hasEnglish && !$hasNumber)      return self::TYPE_SINHALA;
@@ -204,9 +204,9 @@ class Tokenizer
 
     private function stripSurroundingPunctuation(string $token): string
     {
-        // Keep Sinhala Unicode block (U+0D80-U+0DFF) so vowel signs are preserved
-        $token = preg_replace('/^[^\p{L}\p{N}\x{200D}\x{0D80}-\x{0DFF}]+/u', '', $token) ?? '';
-        $token = preg_replace('/[^\p{L}\p{N}\x{200D}\x{0D80}-\x{0DFF}]+$/u', '', $token) ?? '';
+        // Keep Sinhala letters/marks/digits (U+0D80-U+0DF3) while stripping U+0DF4 Kunddaliya punctuation
+        $token = preg_replace('/^[^\p{L}\p{N}\x{200D}\x{0D80}-\x{0DF3}]+/u', '', $token) ?? '';
+        $token = preg_replace('/[^\p{L}\p{N}\x{200D}\x{0D80}-\x{0DF3}]+$/u', '', $token) ?? '';
         return $token;
     }
 
@@ -215,7 +215,7 @@ class Tokenizer
         $cp = $this->codepoint($char);
         return (
             ($cp >= 0x0DCA && $cp <= 0x0DDF) ||
-            ($cp >= 0x0DF2 && $cp <= 0x0DF4) ||
+            ($cp >= 0x0DF2 && $cp <= 0x0DF3) ||
             $cp === 0x0D82 ||
             $cp === 0x0D83
         );

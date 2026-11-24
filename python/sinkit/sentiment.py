@@ -44,11 +44,10 @@ POSITIVE_WORDS: list[str] = [
     "ප්‍රිය", "ප්‍රියමනාප",
     "සුඛ", "සුඛී",
     "දිනුම", "දිනුවා",
-    "ශක්ති", "ශක්තිමත්",
+    "ශක්ති",
     "ප්‍රශංසා", "ප්‍රශංසනීය",
     "දීප්තිමත්", "දක්ෂ",
     "විශිෂ්ට", "විශිෂ්ටයි",
-    "ශ්‍රේෂ්ඨ",
     "සමෘද්ධිමත්", "සමෘද්ධිය",
     "ඔව්", "හරි", "ඇත්ත",
     "සාමය", "ශාන්ත",
@@ -125,11 +124,11 @@ class SentimentAnalyser:
     Examples
     --------
     >>> sa = SentimentAnalyser()
-    >>> sa.analyse("මෙය ඉතා හොඳ චිත්‍රපටයකි")
-    {'label': 'positive', 'score': 0.75, 'positive': 2, 'negative': 0, ...}
+    >>> sa.analyse("මෙය ඉතා හොඳ චිත්‍රපටයකි")["label"]
+    'positive'
 
-    >>> sa.analyse("මෙය හොඳ නෑ")
-    {'label': 'negative', 'score': 0.6, 'positive': 0, 'negative': 1, ...}
+    >>> sa.analyse("මෙය හොඳ නෑ")["label"]
+    'negative'
     """
 
     def __init__(
@@ -161,14 +160,12 @@ class SentimentAnalyser:
 
         pos_score = 0.0
         neg_score = 0.0
-        negate    = False
 
         for i, token in enumerate(tokens):
-            # Check for negation in previous token
-            if i > 0 and tokens[i - 1] in self._negations:
-                negate = True
-            else:
-                negate = False
+            # Check for negation before or after token (Sinhala is SOV, so negation usually follows)
+            prev_neg = i > 0 and tokens[i - 1] in self._negations
+            next_neg = i + 1 < len(tokens) and tokens[i + 1] in self._negations
+            negate   = prev_neg != next_neg
 
             # Get intensifier multiplier from previous token
             multiplier = 1.0

@@ -7,9 +7,9 @@
  * Cleans, normalises, and filters Sinhala Unicode text.
  * 
  * @package  SinhalaToolkit
- * @author   Your Name
+ * @author   gosdrkht
  * @license  MIT
- * @link     https://github.com/YOUR_USERNAME/sinhala-toolkit
+ * @link     https://github.com/gosdrkht/sinhala-toolkit
  */
 
 namespace SinhalaToolkit;
@@ -51,13 +51,13 @@ class TextCleaner
 
     /**
      * @param string|null $stopwordsPath  Full path to stopwords.json.
-     *                                    Defaults to ../data/stopwords.json
+     *                                    Defaults to ../../data/stopwords.json
      *                                    relative to this file.
      */
     public function __construct(?string $stopwordsPath = null)
     {
         $this->stopwordsPath = $stopwordsPath
-            ?? __DIR__ . '/../data/stopwords.json';
+            ?? __DIR__ . '/../../data/stopwords.json';
 
         $this->loadStopwords();
     }
@@ -159,7 +159,7 @@ class TextCleaner
     public function removeInvisibleChars(string $text, bool $keepZwj = true): string
     {
         // Remove ZWNJ, zero-width space, BOM, soft hyphen, directional marks
-        $text = preg_replace('/[\x{200B}\x{200C}\x{FEFF}\x{00AD}\x{200E}\x{200F}]/u', '', $text);
+        $text = preg_replace('/[\x{200B}\x{200C}\x{FEFF}\x{00AD}\x{200E}\x{200F}]/u', '', $text) ?? $text;
 
         // Optionally remove ZWJ
         if (!$keepZwj) {
@@ -167,7 +167,7 @@ class TextCleaner
         }
 
         // Remove C0 control characters (except tab, newline, carriage return)
-        $text = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/u', '', $text);
+        $text = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/u', '', $text) ?? $text;
 
         return $text;
     }
@@ -182,7 +182,7 @@ class TextCleaner
     public function normaliseWhitespace(string $text): string
     {
         // Replace all whitespace variants (including nbsp, ideographic space) with regular space
-        $text = preg_replace('/[\s\x{00A0}\x{3000}]+/u', ' ', $text);
+        $text = preg_replace('/[\s\x{00A0}\x{3000}]+/u', ' ', $text) ?? $text;
         return trim($text);
     }
 
@@ -197,10 +197,10 @@ class TextCleaner
     public function removePunctuation(string $text, bool $keepDanda = true): string
     {
         if ($keepDanda) {
-            // Remove all punctuation except Sinhala dandas
-            $text = preg_replace('/[^\p{L}\p{N}\s\x{0964}\x{0965}]/u', ' ', $text);
+            // Remove all punctuation except Sinhala dandas, preserving combining marks and ZWJ
+            $text = preg_replace('/[^\p{L}\p{M}\p{N}\s\x{200D}\x{0964}\x{0965}]/u', ' ', $text) ?? $text;
         } else {
-            $text = preg_replace('/[^\p{L}\p{N}\s]/u', ' ', $text);
+            $text = preg_replace('/[^\p{L}\p{M}\p{N}\s\x{200D}]/u', ' ', $text) ?? $text;
         }
 
         return $this->normaliseWhitespace($text);
@@ -215,7 +215,7 @@ class TextCleaner
      */
     public function removeEnglish(string $text): string
     {
-        $text = preg_replace('/[a-zA-Z]+/u', ' ', $text);
+        $text = preg_replace('/[a-zA-Z]+/u', ' ', $text) ?? $text;
         return $this->normaliseWhitespace($text);
     }
 
@@ -228,7 +228,7 @@ class TextCleaner
     public function removeNumbers(string $text): string
     {
         // ASCII digits + Sinhala digits (U+0DE6–U+0DEF)
-        $text = preg_replace('/[0-9\x{0DE6}-\x{0DEF}]/u', ' ', $text);
+        $text = preg_replace('/[0-9\x{0DE6}-\x{0DEF}]/u', ' ', $text) ?? $text;
         return $this->normaliseWhitespace($text);
     }
 

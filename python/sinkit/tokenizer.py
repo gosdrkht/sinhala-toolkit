@@ -6,7 +6,7 @@ Usage:
     from sinkit.tokenizer import Tokenizer
 
     t = Tokenizer()
-    t.split_sentences("ඔහු ගෙදර ගියා། ඇය පාසලට ගියාය།")
+    t.split_sentences("ඔහු ගෙදර ගියා। ඇය පාසලට ගියාය।")
     # ["ඔහු ගෙදර ගියා", "ඇය පාසලට ගියාය"]
 
     t.tokenize("ශ්‍රී ලංකාව ලස්සන රටකි")
@@ -16,7 +16,6 @@ Usage:
 from __future__ import annotations
 
 import re
-import unicodedata
 from collections import Counter
 from typing import TypedDict
 
@@ -31,7 +30,6 @@ _DOUBLE_DANDA = "\u0965"   # ॥
 _SINHALA_RE   = re.compile(r"[\u0D80-\u0DFF]")
 _ENGLISH_RE   = re.compile(r"[a-zA-Z]")
 _NUMBER_RE    = re.compile(r"[0-9\u0DE6-\u0DEF]")
-_DIACRITIC_RE = re.compile(r"[\u0DCA-\u0DDF\u0DF2-\u0DF4\u0D82\u0D83]")
 
 # Token types
 TYPE_SINHALA     = "sinhala"
@@ -60,7 +58,7 @@ class Tokenizer:
     Examples
     --------
     >>> t = Tokenizer()
-    >>> t.split_sentences("ඔහු ගෙදර ගියා། ඇය පාසලට ගියාය།")
+    >>> t.split_sentences("ඔහු ගෙදර ගියා। ඇය පාසලට ගියාය।")
     ['ඔහු ගෙදර ගියා', 'ඇය පාසලට ගියාය']
 
     >>> t.tokenize("ශ්‍රී ලංකාව ලස්සන රටකි")
@@ -211,7 +209,7 @@ class Tokenizer:
                 i += 1
 
             # Consume ZWJ + following consonant (conjunct)
-            if i < len(chars) and chars[i] == _ZWJ:
+            while i < len(chars) and chars[i] == _ZWJ:
                 cluster += chars[i]  # ZWJ
                 i += 1
                 if i < len(chars):
@@ -240,7 +238,7 @@ class Tokenizer:
         has_sinhala = bool(_SINHALA_RE.search(token))
         has_english = bool(_ENGLISH_RE.search(token))
         has_number  = bool(_NUMBER_RE.search(token))
-        is_punct    = bool(re.match(r"^[^\w]+$", token, re.UNICODE))
+        is_punct    = bool(re.match(r"^(?:[^\w\u0D80-\u0DF3]|_)+$", token, re.UNICODE))
 
         if is_punct:                                  return TYPE_PUNCTUATION
         if has_sinhala and not has_english and not has_number: return TYPE_SINHALA
@@ -278,8 +276,8 @@ class Tokenizer:
 
     def _strip_surrounding_punctuation(self, token: str) -> str:
         """Strip punctuation from start/end of token, preserving Sinhala diacritics."""
-        token = re.sub(r"^[^\w\u200D\u0D80-\u0DFF]+", "", token)
-        token = re.sub(r"[^\w\u200D\u0D80-\u0DFF]+$", "", token)
+        token = re.sub(r"^[^\w\u200D\u0D80-\u0DF3]+", "", token)
+        token = re.sub(r"[^\w\u200D\u0D80-\u0DF3]+$", "", token)
         return token
 
     def _is_diacritic(self, char: str) -> bool:
@@ -287,7 +285,7 @@ class Tokenizer:
         cp = ord(char)
         return (
             (0x0DCA <= cp <= 0x0DDF) or
-            (0x0DF2 <= cp <= 0x0DF4) or
+            (0x0DF2 <= cp <= 0x0DF3) or
             cp == 0x0D82 or
             cp == 0x0D83
         )
