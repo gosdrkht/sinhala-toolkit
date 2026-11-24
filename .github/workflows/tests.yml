@@ -69,3 +69,22 @@ jobs:
                   json.load(f)
               print("Valid JSON:", path)
           '
+
+  node-tests:
+    name: Node.js ${{ matrix.node-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: ["20", "22"]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Run JavaScript/TypeScript test suite
+        run: node --test js/tests/test.js

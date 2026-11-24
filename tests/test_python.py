@@ -9,15 +9,21 @@ import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "python"))
 
 from sinkit import (
+    Chunker,
+    KeywordExtractor,
+    Normalizer,
     ProfanityFilter,
     SentimentAnalyser,
+    Stemmer,
     Stopwords,
     TextCleaner,
     Tokenizer,
+    Transliterator,
     all_stopwords,
     filter_stopwords,
     is_stopword,
 )
+from sinkit.cli import main as cli_main
 
 
 def test_stopwords_loading_and_queries():
@@ -127,3 +133,58 @@ def test_profanity_filter():
     assert pf.contains_profanity("මෙය කුජීත") is True
     pf.remove_words(["කුජීත"])
     assert pf.contains_profanity("මෙය කුජීත") is False
+
+
+def test_transliterator_and_slugify():
+    tr = Transliterator()
+    assert tr.to_sinhala("aayubowan lanka") == "ආයුබෝවන් ලංකා"
+    assert tr.to_sinhala("kama") == "කම"
+    assert tr.to_singlish("ශ්\u200Dරී ලංකාව") == "shri lankawa"
+    assert tr.slugify("ශ්\u200Dරී ලංකාව ලස්සන රටකි") == "shri-lankawa-lassana-rataki"
+    assert tr.slugify("ලංකා Cricket 2026!") == "lanka-cricket-2026"
+
+
+def test_stemmer():
+    st = Stemmer()
+    assert st.stem("ගෙදරට") == "ගෙදර"
+    assert st.stem("ගෙදරින්") == "ගෙදර"
+    assert st.stem("ගෙදරයි") == "ගෙදර"
+    assert st.stem("මම") == "මම"
+
+
+def test_keyword_extractor_and_summarizer():
+    ke = KeywordExtractor()
+    kw = ke.extract("ශ්\u200Dරී ලංකාව ලස්සන රටකි ශ්\u200Dරී ලංකාව හොඳ රටකි", top_k=2)
+    assert [item["keyword"] for item in kw] == ["ශ්\u200Dරී", "ලංකාව"]
+
+    doc = "ශ්\u200Dරී ලංකාව ඉතා ලස්සන රටකි\u0964 ශ්\u200Dරී ලංකාව සංචාරකයන් අතර ජනප්‍රියයි\u0964 අද වැස්ස වහිනවා\u0964"
+    summary = ke.summarize(doc, num_sentences=2)
+    assert len(Tokenizer().split_sentences(summary)) == 2
+
+
+def test_normalizer():
+    norm = Normalizer()
+    assert norm.sinhala_digits_to_ascii("෨෦෨෪") == "2024"
+    assert norm.ascii_digits_to_sinhala("2024") == "෨෦෨෪"
+    assert norm.extract_currency("මිල රු. 5,000 කි")[0]["amount"] == 5000.0
+    assert norm.extract_currency("වටිනාකම රු. ලක්ෂ 5 කි")[0]["amount"] == 500000.0
+    assert norm.extract_dates("උත්සවය 2026 නොවැම්බර් 24 පැවැත්වේ")[0]["iso"] == "2026-11-24"
+    assert norm.normalize_text("මිල රු. ෫,෦෦෦") == "මිල LKR 5,000"
+
+
+def test_chunker():
+    ch = Chunker()
+    assert ch.chunk("ඔහු ගෙදර ගියා\u0964 ඇය පාසලට ගියාය\u0964", max_chars=20) == [
+        "ඔහු ගෙදර ගියා\u0964",
+        "ඇය පාසලට ගියාය\u0964",
+    ]
+    assert ch.estimate_tokens("ශ්\u200Dරී ලංකාව") > 0
+    assert ch.estimate_tokens("") == 0
+
+
+def test_cli(capsys):
+    assert cli_main(["slug", "ශ්\u200Dරී ලංකාව ලස්සන රටකි"]) == 0
+    assert capsys.readouterr().out.strip() == "shri-lankawa-lassana-rataki"
+
+    assert cli_main(["profanity", "ඔහු මෝඩයා", "--censor"]) == 0
+    assert capsys.readouterr().out.strip() == "ඔහු ***"

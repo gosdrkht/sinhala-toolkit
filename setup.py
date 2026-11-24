@@ -5,9 +5,9 @@ with open("README.md", encoding="utf-8") as f:
 
 setup(
     name="sinkit",
-    version="1.1.0",
+    version="1.2.0",
     author="gosdrkht",
-    description="Zero-dependency Sinhala NLP toolkit for Python — text cleaner, tokenizer, stopwords, sentiment analysis, profanity filter & script detector",
+    description="Zero-dependency Sinhala NLP toolkit for Python — text cleaner, tokenizer, stopwords, sentiment analysis, profanity filter, transliterator, stemmer, keywords & RAG chunker",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/gosdrkht/sinhala-toolkit",
@@ -18,6 +18,11 @@ setup(
     },
     packages=find_packages(where="python"),
     package_dir={"": "python"},
+    entry_points={
+        "console_scripts": [
+            "sinkit=sinkit.cli:main",
+        ],
+    },
     data_files=[
         (
             "share/sinkit/data",

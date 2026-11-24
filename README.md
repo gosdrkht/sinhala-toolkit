@@ -36,17 +36,18 @@ Until now.
 
 | Feature | Status |
 |---|---|
-| 📋 Stopwords list (140+ curated words, categorised) | ✅ Ready (PHP & Python) |
-| 🧹 Text cleaner (Unicode, ZWJ, whitespace, noise) | ✅ Ready (PHP & Python) |
-| ✂️ Sentence tokenizer (danda, mixed punctuation) | ✅ Ready (PHP & Python) |
-| 🔤 Word tokenizer (Sinhala, English, mixed) | ✅ Ready (PHP & Python) |
-| 🔍 Token type classifier (sinhala/english/number/mixed) | ✅ Ready (PHP & Python) |
-| 🧬 Grapheme cluster splitter (ZWJ conjuncts) | ✅ Ready (PHP & Python) |
-| 📊 Word frequency counter | ✅ Ready (PHP & Python) |
-| 🔡 Script detector (sinhala/english/mixed/unknown) | ✅ Ready (PHP & Python) |
-| 😊 Sentiment analyser | ✅ Ready (Python) |
-| 💬 Singlish transliterator | 🔲 Coming soon |
-| 🚫 Profanity filter | 🔲 Coming soon |
+| 📋 Stopwords list (140+ curated words, categorised) | ✅ Ready (PHP, Python & JS/TS) |
+| 🧹 Text cleaner (Unicode, ZWJ, whitespace, noise) | ✅ Ready (PHP, Python & JS/TS) |
+| ✂️ Sentence, word & grapheme tokenizers (danda, ZWJ conjuncts) | ✅ Ready (PHP, Python & JS/TS) |
+| 🔡 Trilingual script detector (`sinhala`/`tamil`/`english`/`mixed`) | ✅ Ready (PHP, Python & JS/TS) |
+| 😊 Sentiment analyser (with Sinhala post-negation) | ✅ Ready (PHP, Python & JS/TS) |
+| 🚫 Profanity / bad-word filter (severity-aware, ZWJ-safe) | ✅ Ready (PHP, Python & JS/TS) |
+| 💬 Singlish ↔ Sinhala transliterator & URL `slugify()` | ✅ Ready (PHP, Python & JS/TS) |
+| 🌱 Sinhala stemmer / suffix stripper | ✅ Ready (PHP, Python & JS/TS) |
+| 🏷️ Keyword extractor & extractive summariser | ✅ Ready (PHP, Python & JS/TS) |
+| 💱 Number, LKR currency (`ලක්ෂ`/`කෝටි`) & date normaliser | ✅ Ready (PHP, Python & JS/TS) |
+| 🤖 LLM / RAG Sinhala-aware text chunker & token estimator | ✅ Ready (PHP, Python & JS/TS) |
+| 🖥️ Python CLI (`sinkit`) & JS/TS ESM package (`js/`) | ✅ Ready |
 
 ---
 
@@ -381,12 +382,16 @@ sinhala-toolkit/
 ## Roadmap
 
 - [x] `composer require` support (`gosdrkht/sinhala-toolkit` on Packagist)
-- [x] Python package (`pip install sinkit` on PyPI)
-- [x] Sinhala sentiment analyser (PHP & Python)
-- [x] Profanity / bad word filter (PHP & Python)
+- [x] Python package (`pip install sinkit` on PyPI) + `sinkit` CLI
+- [x] JavaScript / TypeScript ESM package (`js/`)
+- [x] Sinhala sentiment analyser (PHP, Python & JS/TS)
+- [x] Profanity / bad word filter (PHP, Python & JS/TS)
 - [x] Language / script detector (Sinhala vs Tamil vs English)
-- [ ] Singlish transliterator (`ආයුබෝවන්` ↔ `aayubowan`)
-- [ ] Keyword extractor (TF-IDF)
+- [x] Singlish ↔ Sinhala transliterator & URL `slugify()`
+- [x] Sinhala stemmer / suffix stripper
+- [x] Keyword extractor & extractive summariser
+- [x] Number, LKR currency & Sinhala date normaliser
+- [x] LLM / RAG Sinhala-aware text chunker & token estimator
 - [ ] REST API (hosted)
 
 ---

@@ -1,0 +1,45 @@
+{
+  "name": "sinhala-toolkit",
+  "version": "1.2.0",
+  "description": "Zero-dependency Sinhala NLP toolkit for JavaScript & TypeScript — text cleaner, tokenizer, stopwords, sentiment analysis, profanity filter, Singlish transliterator, stemmer, keywords, normalizer & RAG chunker",
+  "type": "module",
+  "main": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "import": "./src/index.js"
+    }
+  },
+  "files": [
+    "src/"
+  ],
+  "scripts": {
+    "test": "node --test tests/test.js"
+  },
+  "keywords": [
+    "sinhala",
+    "sinhala-nlp",
+    "nlp",
+    "tokenizer",
+    "transliterator",
+    "singlish",
+    "slugify",
+    "stemmer",
+    "sentiment-analysis",
+    "profanity-filter",
+    "sri-lanka",
+    "tamil"
+  ],
+  "author": "gosdrkht",
+  "license": "MIT",
+  "homepage": "https://www.sinhalatoolkit.leadingedgesolutions.lk",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gosdrkht/sinhala-toolkit.git",
+    "directory": "js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
