@@ -5,10 +5,13 @@
 
 සිංහල භාෂා සැකසීම සඳහා නවීන developer toolkit එක
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Packagist Version](https://img.shields.io/packagist/v/gosdrkht/sinhala-toolkit?label=Packagist)](https://packagist.org/packages/gosdrkht/sinhala-toolkit)
+[![PyPI Version](https://img.shields.io/pypi/v/sinkit?label=PyPI%20%28sinkit%29)](https://pypi.org/project/sinkit/)
 [![PHP Version](https://img.shields.io/badge/PHP-8.1%2B-blue.svg)](https://php.net)
+[![Python Version](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://python.org)
 [![Sinhala NLP](https://img.shields.io/badge/NLP-Sinhala-green.svg)]()
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
-[![GitHub Stars](https://img.shields.io/github/stars/gosdrkht/sinhala-toolkit?style=social)]()
+[![GitHub Stars](https://img.shields.io/github/stars/gosdrkht/sinhala-toolkit?style=social)](https://github.com/gosdrkht/sinhala-toolkit)
 
 [English](#english) · [සිංහල](#sinhala) · [Quick Start](#quick-start) · [API Reference](#api-reference) · [Contributing](#contributing)
 
@@ -18,11 +21,11 @@
 
 ## Why this exists
 
-There are academic NLP papers on Sinhala. There are scattered university datasets. But if you're a developer who wants to **just use** a Sinhala tokenizer, cleaner, or stopword filter in your PHP project today — you had nothing.
+There are academic NLP papers on Sinhala. There are scattered university datasets. But if you're a developer who wants to **just use** a Sinhala tokenizer, cleaner, or stopword filter in your PHP or Python project today — you had nothing.
 
 Until now.
 
-`sinhala-toolkit` is production-ready, zero-dependency Sinhala NLP for PHP developers. Built for the Sri Lankan dev community, by a Sri Lankan developer.
+`sinhala-toolkit` is a production-ready, zero-dependency Sinhala NLP toolkit for **PHP** (`gosdrkht/sinhala-toolkit`) and **Python** (`sinkit`). Built for the Sri Lankan dev community, by a Sri Lankan developer.
 
 ---
 
@@ -32,40 +35,62 @@ Until now.
 
 | Feature | Status |
 |---|---|
-| 📋 Stopwords list (120+ curated words, categorised) | ✅ Ready |
-| 🧹 Text cleaner (Unicode, ZWJ, whitespace, noise) | ✅ Ready |
-| ✂️ Sentence tokenizer (danda, mixed punctuation) | ✅ Ready |
-| 🔤 Word tokenizer (Sinhala, English, mixed) | ✅ Ready |
-| 🔍 Token type classifier (sinhala/english/number/mixed) | ✅ Ready |
-| 🧬 Grapheme cluster splitter (ZWJ conjuncts) | ✅ Ready |
-| 📊 Word frequency counter | ✅ Ready |
-| 🔡 Script detector (sinhala/english/mixed/unknown) | ✅ Ready |
+| 📋 Stopwords list (140+ curated words, categorised) | ✅ Ready (PHP & Python) |
+| 🧹 Text cleaner (Unicode, ZWJ, whitespace, noise) | ✅ Ready (PHP & Python) |
+| ✂️ Sentence tokenizer (danda, mixed punctuation) | ✅ Ready (PHP & Python) |
+| 🔤 Word tokenizer (Sinhala, English, mixed) | ✅ Ready (PHP & Python) |
+| 🔍 Token type classifier (sinhala/english/number/mixed) | ✅ Ready (PHP & Python) |
+| 🧬 Grapheme cluster splitter (ZWJ conjuncts) | ✅ Ready (PHP & Python) |
+| 📊 Word frequency counter | ✅ Ready (PHP & Python) |
+| 🔡 Script detector (sinhala/english/mixed/unknown) | ✅ Ready (PHP & Python) |
+| 😊 Sentiment analyser | ✅ Ready (Python) |
 | 💬 Singlish transliterator | 🔲 Coming soon |
-| 😊 Sentiment analyser | 🔲 Coming soon |
 | 🚫 Profanity filter | 🔲 Coming soon |
 
 ---
 
 ## Quick Start
 
-### Installation
+### PHP Installation
 
-**Option 1 — Manual (shared hosting friendly)**
+**Option 1 — Composer (Recommended)**
 
-Download and drop the `src/` folder into your project:
+```bash
+composer require gosdrkht/sinhala-toolkit
+```
+
+**Option 2 — Manual (shared hosting friendly)**
+
+Download and drop the `php/src/` and `data/` folders into your project:
 
 ```php
-require_once 'src/TextCleaner.php';
-require_once 'src/Tokenizer.php';
+require_once 'php/src/TextCleaner.php';
+require_once 'php/src/Tokenizer.php';
 
 use SinhalaToolkit\TextCleaner;
 use SinhalaToolkit\Tokenizer;
 ```
 
-**Option 2 — Composer** *(coming soon)*
+### Python Installation (`sinkit`)
 
 ```bash
-composer require gosdrkht/sinhala-toolkit
+pip install sinkit
+```
+
+```python
+from sinkit import TextCleaner, Tokenizer, SentimentAnalyser
+
+cleaner = TextCleaner()
+print(cleaner.clean("  මම   සහ  ඔබ  ගෙදර  ගියා  ", remove_stopwords=True))
+# "ගෙදර ගියා"
+
+tokenizer = Tokenizer()
+print(tokenizer.tokenize("ශ්‍රී ලංකාව ලස්සන රටකි"))
+# ['ශ්‍රී', 'ලංකාව', 'ලස්සන', 'රටකි']
+
+sa = SentimentAnalyser()
+print(sa.analyse("මෙය ඉතා හොඳ චිත්‍රපටයකි")["label"])
+# "positive"
 ```
 
 ---
@@ -279,14 +304,25 @@ $tokenizer = new Tokenizer();
 
 ```
 sinhala-toolkit/
-├── src/
-│   ├── TextCleaner.php      # Text cleaning & normalisation
-│   └── Tokenizer.php        # Sentence & word tokenization
+├── php/src/
+│   ├── TextCleaner.php      # PHP text cleaning & normalisation
+│   └── Tokenizer.php        # PHP sentence & word tokenization
+├── python/sinkit/
+│   ├── cleaner.py           # Python text cleaning & normalisation
+│   ├── tokenizer.py         # Python sentence & word tokenization
+│   ├── stopwords.py         # Python stopwords loader
+│   └── sentiment.py         # Python rule-based sentiment analyser
 ├── data/
-│   └── stopwords.json       # 120+ curated Sinhala stopwords
+│   ├── stopwords.json       # 140+ curated Sinhala stopwords
+│   ├── common_words.json    # Common Sinhala words dataset
+│   └── profanity.json       # Sinhala profanity dataset
 ├── tests/
 │   ├── test_cleaner.php
-│   └── test_tokenizer.php
+│   ├── test_tokenizer.php
+│   └── test_python.py
+├── composer.json
+├── setup.py
+├── pyproject.toml
 ├── CONTRIBUTING.md
 ├── LICENSE
 └── README.md
@@ -296,13 +332,13 @@ sinhala-toolkit/
 
 ## Roadmap
 
-- [ ] `composer require` support
+- [x] `composer require` support (`gosdrkht/sinhala-toolkit` on Packagist)
+- [x] Python package (`pip install sinkit` on PyPI)
+- [x] Sinhala sentiment analyser (Python)
 - [ ] Singlish transliterator (`ආයුබෝවන්` ↔ `aayubowan`)
-- [ ] Sinhala sentiment analyser
 - [ ] Profanity / bad word filter
 - [ ] Language detector (Sinhala vs Tamil vs English)
 - [ ] Keyword extractor (TF-IDF)
-- [ ] Python package (`pip install sinkit`)
 - [ ] REST API (hosted)
 
 ---
@@ -324,13 +360,16 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ## සිංහල
 
-**sinhala-toolkit** යනු PHP developers ලා සඳහා නිර්මාණය කරන ලද, නිෂ්පාදන-සූදානම් සිංහල NLP toolkit එකකි.
+**sinhala-toolkit** යනු PHP සහ Python developers ලා සඳහා නිර්මාණය කරන ලද, නිෂ්පාදන-සූදානම් සිංහල NLP toolkit එකකි.
 
 ### ස්ථාපනය
 
-```php
-require_once 'src/TextCleaner.php';
-require_once 'src/Tokenizer.php';
+```bash
+# PHP (Composer)
+composer require gosdrkht/sinhala-toolkit
+
+# Python (PyPI)
+pip install sinkit
 ```
 
 ### සරල නිදර්ශනයක්
