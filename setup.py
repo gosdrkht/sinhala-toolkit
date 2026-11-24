@@ -47,5 +47,5 @@ setup(
         "Programming Language :: Python :: 3.11",
         "Programming Language :: Python :: 3.12",
     ],
-    keywords="sinhala sinhala-nlp sinhalese nlp tokenizer text-processing text-cleaner stopwords sentiment-analysis profanity-filter unicode tamil sri-lanka natural-language-processing sinkit",
+    keywords="sinhala sinhala-nlp sinhalese singlish transliterator slugify stemmer nlp tokenizer text-processing text-cleaner stopwords sentiment-analysis profanity-filter rag llm unicode tamil sri-lanka natural-language-processing sinkit",
 )
